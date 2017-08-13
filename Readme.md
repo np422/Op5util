@@ -69,12 +69,15 @@ If you enter the command ```op5util help``` the top-level documentation is displ
 NAME
     op5util - A small utility to perform common Op5 administration tasks from the command line
 
-    About authentication, if you supply username/password as options, they will be used. If username/password options isn't supplied the environment variables OP5USER and
-    OP5PASS will be used. If there are no environment variables set the file pointed to by --authfile or the default file ~/.op5pass will be read. The file format is a single
-    line with username and password separated by a : (colon). The supplied credentials shoud be an account with administrative privileges.
+    About authentication, if you supply username/password as options, they will be used. If username/password
+    options isn't supplied the environment variables OP5USER and OP5PASS will be used. If there are no
+    environment variables set the file pointed to by --authfile or the default file ~/.op5pass will be read.
+    The file format is a single line with username and password separated by a : (colon). The supplied
+    credentials shoud be an account with administrative privileges.
 
-    This application uses the REST-api described at https://your.op5.sever/api/help. Although TLS/SSL is used no verification of the certificate isdon as most Op5-servers have
-    a self-signed certificate.
+    This application uses the REST-api described at https://your.op5.sever/api/help. Although TLS/SSL is
+    used no verification of the certificate isdon as most Op5-servers have a self-signed certificate from
+    the default install.
 
 SYNOPSIS
     op5util [global options] command [command options] [arguments...]
@@ -83,9 +86,11 @@ VERSION
     0.0.2
 
 GLOBAL OPTIONS
-    -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5 server (default: ~/.op5pass)
+    -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5
+                              server (default: ~/.op5pass)
     --help                  - Show this message
-    -m, --monitor=monitor   - Hostname or IP-address of the Op5 monitor server, if not supplied the environment variable MONITOR will be used (default: none)
+    -m, --monitor=monitor   - Hostname or IP-address of the Op5 monitor server, if not supplied
+                              the environment variable MONITOR will be used (default: none)
     -p, --password=password - Password used to authenticate with the Op5 server (default: none)
     -u, --username=username - Username used to authenticate with the Op5 server (default: none)
     --version               - Display the program version
@@ -111,13 +116,18 @@ SYNOPSIS
     op5util [global options] add [command options] hostname.with-fqdn.to.add
 
 DESCRIPTION
-    The host is added using default values for max_check_attempts (3), notification_interval (0, aka notify once), notification_period (24x7), etc and using the
-    default-host-template. For most off-the-shelf newly installed servers these values usually are sufficient and can be fine-tuned using the web-gui if so should be needed.
+    The host is added using default values for max_check_attempts (3), notification_interval (0, aka notify
+    once), notification_period (24x7), etc and using the default-host-template. For most off-the-shelf
+    newly installed servers these values usually are sufficient and can be fine-tuned using the web-gui
+    if so should be needed.
 
 COMMAND OPTIONS
-    -a, --alias=arg         - Alias for host, defaults to hostname with the fqdn removed if not entered. (default: none)
-    -c, --contactgroups=arg - Contact groups for host, defaults to "support_group" (may be used more than once, default: ["support-group"])
-    -g, --hostgroups=arg    - Hostgroup(s) to which the new host will be added (may be used more than once, default: none)
+    -a, --alias=arg         - Alias for host, defaults to hostname with the fqdn removed if not entered
+                              (default: none)
+    -c, --contactgroups=arg - Contact groups for host, defaults to "support_group" (may be used more
+                              than once, default: ["support-group"])
+    -g, --hostgroups=arg    - Hostgroup(s) to which the new host will be added (may be used more than
+                              once, default: none)
     -i, --ipaddr=arg        - IP-address of host, resolved through DNS if not supplied (default: none)
 ```
 
@@ -131,14 +141,18 @@ SYNOPSIS
     op5util [global options] downtime [command options] host
 
 COMMAND OPTIONS
-    -c, --comment=arg - Comment on reason for downtime downtime (default: Temporary downtime due to system administration)
+    -c, --comment=arg - Comment on reason for downtime downtime (default: Temporary downtime due
+                        to system administration)
     -t, --time=arg    - Time period for downtime, in number of hours (default: 2)
 ```
 
 ## Roadmap, TODO
 
-A lot remains, the roadmap ahead contains more automated pre-release tests, more documentation and including some more functions, but the current version of op5util is already useful to me in my day-time job, perhaps it also could be useful to other Op5 administrators?
+A lot remains, the roadmap ahead contains more automated pre-release tests, more documentation and
+adding some more functions, but the current version of op5util is already useful to me in my
+day-time job, perhaps it also could be useful to other Op5 administrators?
 
-Please, give my repo a github star or drop me line if you find this utility useful. Feel free to leave a bug-reports or feature requests as an issue in this repo.
+Please, give my repo a github star or drop me line if you find this utility useful. Feel
+free to leave a bug-reports or feature requests as an issue in this repo.
 
 /Niklas

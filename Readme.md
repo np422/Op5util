@@ -13,7 +13,7 @@ was born.
 
 In its current version Op5util can check status of hosts, make a
 summary of all monitored hosts health, add new hosts to be monitored,
-add hosts to new hostgroups, schedule downtime and acknowledge alarms.
+    add hosts to new hostgroups, schedule downtime and acknowledge alarms.
 
 The design nowdays is reasonable modular so new functions can be easily
 added if they are needed, pull requests are happily accepted.
@@ -25,7 +25,7 @@ warranties.
 
 A few usage example and the output from op5util.
 
-### Installing, adding a host, checking host status
+### Installing op5util, add a host to op5, check host status
 
 The commands entered have been given a slightly different color to make them a little more visible.
 The screenshot shows installation from gem-file, adding a host and showing status of that host in
@@ -48,7 +48,7 @@ And the same host in a listview with service stae as comparison with the termina
 
 ![web-gui](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/host_op5_listview.png)
 
-### Summary of all hosts
+### Show a summary of all hosts
 
 You can use to op5util to get a quick look at the overall status directly from the
 command line as well, both a aggregate view and a view status per host.

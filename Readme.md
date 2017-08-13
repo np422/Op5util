@@ -144,8 +144,7 @@ SYNOPSIS
     op5util [global options] downtime [command options] host
 
 COMMAND OPTIONS
-    -c, --comment=arg - Comment on reason for downtime downtime (default: Temporary downtime due
-                        to system administration)
+    -c, --comment=arg - Comment on reason for downtime (default: Temporary downtime due to system administration)
     -t, --time=arg    - Time period for downtime, in number of hours (default: 2)
 ```
 

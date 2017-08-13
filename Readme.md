@@ -1,43 +1,69 @@
 ## Op5util
 
-I got bored logging into the web-gui to administer op5 as most of my other
-work was done on the command line, hence op5util.
+Are you using Op5? Perhaps you do most of your work from the command-line
+and want to be able to do the most common Op5 tasks without logging in
+to a web-gui?
 
-Op5util can check status of osts, get a summary over the overall network
-health, add new hosts to be monitored, add hosts to new hostgroups,
-schedule downtime and acknowledge alarms.
+Or you want to start monitoring the newly installed hosts with Op5
+using your config management tool?
 
-The current versions is a re-write to make it more modular.
+Those two use-cases were my biggest itches when I first started to use
+saved curl commands to interact with the REST-api and soon op5util.rb
+was born.
 
-I use it daily in production, but I take no responsibility for what it may
-cause if you run it.
+In its current version Op5util can check status of hosts, make a
+summary of all monitored hosts health, add new hosts to be monitored,
+add hosts to new hostgroups, schedule downtime and acknowledge alarms.
 
+The design nowdays is reasonable modular so new functions can be easily
+added if they are needed, pull requests are happily accepted.
+
+I use op5util daily in a production environment, but it comes with no
+warranties.
 
 ## Screenshots
 
-Nevermind the bundle exec part in the screenshots, that's just before it's been packaged as a gem, if you install the gem you will just run the command op5util without the bundle exec part.
+A few usage example and the output from op5util.
 
-#### Network Summary
+#### Installing, adding a host, checking host status
 
-![Network summary](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/status.png)
+The commands entered have been given a slightly different color to make them a little more visible.
+The screenshot shows installation from gem-file, adding a host and showing status of that host in
+both brief and long versions.
+
+By setting the environment variable MONITOR to the hostname of the host running op5 as in this
+example you don't need to use the flag ```--monitor=op5server``` on every op5util command.
+
+The host is added as a member of the hostgroup linux_hosts with the op5util add command, and
+that's where all the servicechecks are defined. There was a minute between the add and the status
+command so the services could be checked in the meantime.
+
+![Usage example](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/usage1_color.png)
+
+The newly added host in normal web-gui.
+
+![web-gui](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/host_op5.png)
+
+And the same host in a listview with service stae as comparison with the terminal output.
+
+![web-gui](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/host_op5_listview.png)
 
 #### Summary of all hosts
 
-![Summary of all hosts](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/host_list_status.png)
+You can use to op5util to get a quick look at the overall status directly from the
+command line as well, both a aggregate view and a view status per host.
 
-#### Summary of host
-
-![Summary of host](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/status_short.png)
-
-#### Detailed status of host
-
-![Detailed status of host](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/host_full_status.png)
+![network state summary](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/state_summary.png)
 
 ## Installation
 
-Download the pkg/op5util-0.0.2.gem and install using ```gem install op5util-0.0.2.gem```.
+Download the latest pkg/op5util-0.X.Y.gem from this repo and install using ```gem install op5util-0.0.3.gem```.
 
 ### Usage
+
+There is no man-page, but the built in help text should do the job.
+
+If you enter the command ```op5util help``` the top-level documentation is displayed.
 
 ``` text
 NAME
@@ -75,6 +101,8 @@ COMMANDS
 
 #### Add host
 
+To get information about a specific command, use ```op5util help add``` , two examples are included below.
+
 ``` text
 NAME
     add - Add a new host to be monitored by the Op5 server
@@ -107,6 +135,10 @@ COMMAND OPTIONS
     -t, --time=arg    - Time period for downtime, in number of hours (default: 2)
 ```
 
-## TODO
+## Roadmap, TODO
 
-A lot, but this is something that could perhaps be useful to other Op5 Administrators, please feel free to use it.
+A lot remains, the roadmap ahead contains more automated pre-release tests, more documentation and including some more functions, but the current version of op5util is already useful to me in my day-time job, perhaps it also could be useful to other Op5 administrators?
+
+Please, give my repo a github star or drop me line if you find this utility useful. Feel free to leave a bug-reports or feature requests as an issue in this repo.
+
+/Niklas

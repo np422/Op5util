@@ -26,7 +26,7 @@ module Op5util
 
     private
 
-    def build_add_host_requst_body(host, options)
+    def build_add_host_request_body(host, options)
       host_ipaddr   = options[:ipaddr].nil? ? Resolv.getaddress(host) : options[:ipaddr]
       host_alias    = options[:alias].nil? ? short_name(host) : options[:alias]
       contactgroups = options[:contactgroups].nil? ? ['support-group'] : options[:contactgroups]

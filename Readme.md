@@ -25,7 +25,7 @@ warranties.
 
 A few usage example and the output from op5util.
 
-#### Installing, adding a host, checking host status
+### Installing, adding a host, checking host status
 
 The commands entered have been given a slightly different color to make them a little more visible.
 The screenshot shows installation from gem-file, adding a host and showing status of that host in
@@ -48,7 +48,7 @@ And the same host in a listview with service stae as comparison with the termina
 
 ![web-gui](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/host_op5_listview.png)
 
-#### Summary of all hosts
+### Summary of all hosts
 
 You can use to op5util to get a quick look at the overall status directly from the
 command line as well, both a aggregate view and a view status per host.
@@ -59,11 +59,14 @@ command line as well, both a aggregate view and a view status per host.
 
 Download the latest pkg/op5util-0.X.Y.gem from this repo and install using ```gem install op5util-0.0.3.gem```.
 
-### Usage
+## Usage
 
 There is no man-page, but the built in help text should do the job.
 
 If you enter the command ```op5util help``` the top-level documentation is displayed.
+
+IMHO git has very good command line interface and I've tried to make op5util to do user
+interaction in the same spirit as git.
 
 ``` text
 NAME

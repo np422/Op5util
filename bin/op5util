@@ -1,0 +1,140 @@
+#!/usr/bin/env ruby
+
+# rubocop:disable Lint/UnneededDisable, LineLength, AbcSize, SymbolArray, MethodLength, HashSyntax
+
+require 'gli'
+require 'op5util'
+
+include GLI::App
+
+program_desc 'A small utility to perform common Op5 administration tasks from the command line'
+program_long_desc '
+About authentication, if you supply username/password as options, they will be used. If username/password options isn\'t supplied the environment variables OP5USER and OP5PASS will be used. If there are no environment variables set the file pointed to by --authfile or the default file ~/.op5pass will be read. The file format is a single line with username and password separated by a : (colon). The supplied credentials shoud be an account with administrative privileges.
+
+This application uses the REST-api described at https://your.op5.sever/api/help. Although TLS/SSL is used no verification of the certificate isdon as most Op5-servers have a self-signed certificate.'
+
+version Op5util::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+monitor = nil
+
+desc 'Username used to authenticate with the Op5 server'
+arg_name 'username'
+flag [:u, :username]
+
+desc 'Password used to authenticate with the Op5 server'
+arg_name 'password'
+flag [:p, :password]
+
+desc 'Hostname or IP-address of the Op5 monitor server, if not supplied the environment variable MONITOR will be used'
+arg_name 'monitor'
+flag [:m, :monitor]
+
+desc 'Authfile containing "username:password" used to authenticate with Op5 server'
+default_value '~/.op5pass'
+arg_name 'authfile'
+flag [:f, :authfile]
+
+desc 'Add a new host to be monitored by the Op5 server'
+long_desc 'The host is added using default values for max_check_attempts (3), notification_interval (0, aka notify once), notification_period (24x7), etc and using the default-host-template. For most off-the-shelf newly installed servers these values usually are sufficient and can be fine-tuned using the web-gui if so should be needed.'
+arg_name 'hostname.with-fqdn.to.add'
+command :add do |c|
+  c.desc 'Alias for host, defaults to hostname with the fqdn removed if not entered.'
+  c.flag [:a, :alias]
+
+  c.desc 'Hostgroup(s) to which the new host will be added'
+  c.flag [:g, :hostgroups], :multiple => true
+
+  c.desc 'Contact groups for host, defaults to "support_group"'
+  c.default_value ['support-group']
+  c.flag [:c, :contactgroups], :multiple => true
+
+  c.desc 'IP-address of host, resolved through DNS if not supplied'
+  c.flag [:i, :ipaddr]
+
+  c.action do |_global_options, options, args|
+    # Your command logic here
+    # If you have any errors, just raise them
+    # raise "that command made no sense"
+    monitor.add_host(args[0], options)
+  end
+end
+
+desc 'Add host to a new hostgroup(s)'
+arg_name 'host'
+command :add_hostgroups do |c|
+  c.desc 'Hostgroup(s) that host should be a member of'
+  c.flag [:g, :hostgroups], :multiple => true
+
+  c.action do |_global_options, options, args|
+    monitor.add_hostgroups(args[0], options[:hostgroups])
+  end
+end
+
+desc 'Schedule downtime for a host'
+arg_name 'host'
+command :downtime do |c|
+  c.desc 'Time period for downtime, in number of hours'
+  c.default_value '2'
+  c.flag [:t, :time]
+
+  c.desc 'Comment on reason for downtime downtime'
+  c.default_value 'Temporary downtime due to system administration'
+  c.flag [:c, :comment]
+
+  c.action do |_global_options, options, args|
+    monitor.schedule_downtime(args[0], options)
+  end
+end
+
+desc 'Show monitoring status, if no host is given a summary of all hosts/services is printed'
+arg_name 'host'
+command :status do |c|
+  c.desc 'Print only a brief status information about host'
+  c.switch [:s, :short]
+
+  c.desc 'Print a summary per host'
+  c.switch [:l, :hosts]
+
+  c.action do |_global_options, options, args|
+    if args.count.zero?
+      monitor.status_summary(options)
+    else
+      monitor.status_host(args[0], options)
+    end
+  end
+end
+
+desc 'Acknowledge outstanding alarms - use with care'
+command :acknowledge do |c|
+  c.action do |global_options, options, args|
+    puts 'acknowledge command ran'
+    ap global_options
+    ap options
+    ap args
+  end
+end
+
+pre do |global, command, options, args|
+  Op5util.check_auth(global) ? true : false
+  if global[:monitor].nil? && ENV['MONITOR'].nil?
+    false
+  else
+    global[:monitor] = ENV['MONITOR'] if global['monitor'].nil?
+    monitor = Op5util::Monitor.new(global[:monitor],
+                                   global[:username],
+                                   global[:password])
+    true
+  end
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  puts "Error, #{exception}"
+  false
+end
+
+exit run(ARGV)

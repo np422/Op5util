@@ -1,0 +1,42 @@
+PATH
+  remote: .
+  specs:
+    op5util (0.0.2)
+      colorize (= 0.8.1)
+      gli (= 2.16.1)
+      httparty (= 0.15.5)
+      terminal-table (= 1.8.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    awesome_print (1.7.0)
+    colorize (0.8.1)
+    gli (2.16.1)
+    httparty (0.15.5)
+      multi_xml (>= 0.5.2)
+    multi_xml (0.6.0)
+    power_assert (0.2.6)
+    rake (12.0.0)
+    rdoc (5.1.0)
+    terminal-table (1.8.0)
+      unicode-display_width (~> 1.1, >= 1.1.1)
+    test-unit (3.2.5)
+      power_assert
+    unicode-display_width (1.2.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  colorize
+  httparty
+  op5util!
+  rake
+  rdoc
+  terminal-table
+  test-unit
+
+BUNDLED WITH
+   1.15.1

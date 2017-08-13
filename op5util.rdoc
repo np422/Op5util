@@ -1,0 +1,5 @@
+= op5util
+
+Generate this with
+    op5util rdoc
+After you have described your command line interface

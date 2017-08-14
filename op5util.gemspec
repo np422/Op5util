@@ -18,8 +18,9 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
   s.add_development_dependency('test-unit')
+  s.add_runtime_dependency('colorize', '0.8.1')
   s.add_runtime_dependency('gli', '2.16.1')
   s.add_runtime_dependency('httparty', '0.15.5')
-  s.add_runtime_dependency('colorize', '0.8.1')
   s.add_runtime_dependency('terminal-table', '1.8.0')
+  s.add_runtime_dependency('ruby-terminfo', '0.1.1')
 end

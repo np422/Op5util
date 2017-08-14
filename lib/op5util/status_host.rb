@@ -4,6 +4,7 @@ module Op5util
   # Foo
   class Monitor
     require 'colorize'
+    require 'terminfo'
 
     def status_host(host, options)
       full_status = JSON.parse!(get_host_status(host))
@@ -41,14 +42,33 @@ module Op5util
     end
 
     def print_full_status(full_status)
+      terminal_width = TermInfo.screen_size[1]
+      # The magic number 15 is the size of tables cells padding + the heading 'State'
+      # and a an extra characters for safe layout on narrow terminals
+      max_field_length = ((terminal_width - 15) / 2).floor
       table = Terminal::Table.new do |t|
         t.add_row %w[Service State Info]
         t.add_separator
         full_status['services'].each do |s|
-          t.add_row [s, state_to_s(service_state(s,full_status)), service_info(s,full_status)]
+          t.add_row [fold_string(s, max_field_length),
+                     state_to_s(service_state(s, full_status)),
+                     fold_string(service_info(s, full_status), max_field_length)]
         end
       end
       puts table
+    end
+
+    def fold_string(s, width)
+      start_pos = 0
+      result = ''
+      while start_pos < s.length
+        cut_chars = [width, (s.length - start_pos)].min
+        cut_pos = start_pos + cut_chars - 1
+        result += s[start_pos..cut_pos]
+        start_pos += cut_chars
+        result += "\n" if start_pos < s.length
+      end
+      result
     end
 
     def pp_seconds(seconds)

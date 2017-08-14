@@ -20,7 +20,7 @@ module Op5util
       raise ApiError unless response.code == 200
       hosts = JSON.parse!(response.body).map { |h| h['name'] }
       table = Terminal::Table.new do |t|
-        t.add_row ['Host'.white, 'Host status'.white, 'Total services'.white, 'OK Services'.green, 'WARN Services'.yellow, 'CRIT Services'.red]
+        t.add_row ['Host'.blue, 'Host status'.blue, 'Total Services'.blue, 'OK'.green, 'WARN'.yellow, 'CRIT'.red]
         t.add_separator
         hosts.each do |h|
           t.add_row row_for_host(h)
@@ -45,10 +45,10 @@ module Op5util
       h = get_host_statuses
       s = get_service_statuses
       table = Terminal::Table.new do |t|
-        t.add_row ['', 'Total'.white, 'OK'.green, 'Acknowledged problems'.yellow, 'Unhandled problems'.red]
+        t.add_row ['', 'Total'.blue, 'OK'.green, 'Acknowledged problems'.yellow, 'Unhandled problems'.red]
         t.add_separator
-        t.add_row ['Hosts'.white, h[0].to_s.white , count_ok(h).to_s.green, h[1].to_s.yellow, h[2].to_s.red ]
-        t.add_row ['Services'.white, s[0].to_s.white , count_ok(s).to_s.green, s[1].to_s.yellow, s[2].to_s.red ]
+        t.add_row ['Hosts'.blue, h[0].to_s, count_ok(h).to_s.green, h[1].to_s.yellow, h[2].to_s.red ]
+        t.add_row ['Services'.blue, s[0].to_s, count_ok(s).to_s.green, s[1].to_s.yellow, s[2].to_s.red ]
       end
       puts table
     end

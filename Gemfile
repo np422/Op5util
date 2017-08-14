@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 gemspec
-gem 'httparty'
-gem 'terminal-table'
 gem 'colorize'
-gem 'awesome_print', :group => :development
+gem 'httparty'
+gem 'ruby-terminfo'
+gem 'terminal-table'
+
+group :development do
+  gem 'awesome_print'
+end

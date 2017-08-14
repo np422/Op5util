@@ -63,6 +63,7 @@ command :add do |c|
 end
 
 desc 'Add host to a new hostgroup(s)'
+long_desc 'Example: "op5util add_hostgroups -g linux_hosts -g webservers web-vl131-zrh" will add the host web-vl131-zrh to the hostgroups linux_hosts and webservers'
 arg_name 'host'
 command :add_hostgroups do |c|
   c.desc 'Hostgroup(s) that host should be a member of'
@@ -73,12 +74,15 @@ command :add_hostgroups do |c|
   end
 end
 
-desc 'Schedule downtime for a host'
+desc 'Schedule fixed downtime for a host'
 arg_name 'host'
 command :downtime do |c|
   c.desc 'Time period for downtime, in number of hours'
   c.default_value '2'
   c.flag [:t, :time]
+
+  c.desc 'Start downtime in X hours. If not given, downtime starts now'
+  c.flag [:w, :wait]
 
   c.desc 'Comment on reason for downtime downtime'
   c.default_value 'Temporary downtime due to system administration'
@@ -89,13 +93,13 @@ command :downtime do |c|
   end
 end
 
-desc 'Show monitoring status, if no host is given a summary of all hosts/services is printed'
+desc 'Show monitoring status, if no host is given all hosts/services are included'
 arg_name 'host'
 command :status do |c|
-  c.desc 'Print only a brief status information about host'
+  c.desc 'Print only a brief status information with stats summarized'
   c.switch [:s, :short]
 
-  c.desc 'Print a summary per host'
+  c.desc 'Print a summary with hosts listed and service information per hsot'
   c.switch [:l, :hosts]
 
   c.action do |_global_options, options, args|
@@ -107,8 +111,16 @@ command :status do |c|
   end
 end
 
-desc 'Acknowledge outstanding alarms - use with care'
+desc 'Acknowledge outstanding host and service alarms, without host - *ALL* outstanding alarms and services are acknowledged - use with care'
+arg_name 'host'
 command :acknowledge do |c|
+  c.desc 'comment on acknowledgement'
+  c.default_value 'Work in progress to resolve issue'
+  c.flag [:c, :comment]
+
+  c.desc 'Make comment persistent after problems resolved'
+  c.switch [:p, :persistent]
+
   c.action do |global_options, options, args|
     puts 'acknowledge command ran'
     ap global_options
@@ -116,6 +128,22 @@ command :acknowledge do |c|
     ap args
   end
 end
+
+desc 'Schedule host and all host services checks to be performed for host'
+arg_name 'host'
+command :schedule do |c|
+  c.action do |global_options, options, args|
+  end
+end
+
+desc 'List hostgroup_names'
+command :hostgroups do |c|
+  c.desc 'Include servicechecks for hostgropu in output'
+  c.flag [:l, :long]
+  c.action do |global_options, options, args|
+  end
+end
+
 
 pre do |global, command, options, args|
   Op5util.check_auth(global) ? true : false
@@ -133,6 +161,7 @@ end
 on_error do |exception|
   # Error logic here
   # return false to skip default error handling
+  # TODO: Catch error and print an apropriate message
   puts "Error, #{exception}"
   false
 end

@@ -9,9 +9,9 @@ include GLI::App
 
 program_desc 'A small utility to perform common Op5 administration tasks from the command line'
 program_long_desc '
-About authentication, if you supply username/password as options, they will be used. If username/password options isn\'t supplied the environment variables OP5USER and OP5PASS will be used. If there are no environment variables set the file pointed to by --authfile or the default file ~/.op5pass will be read. The file format is a single line with username and password separated by a : (colon). The supplied credentials shoud be an account with administrative privileges.
+About authentication, if you supply username/password as command-line flags they will be used first. If username/password options isn\'t supplied on the command-line, the environment variables OP5USER and OP5PASS will be used. If there are no environment variables present, the file ~/.op5pass (or --authfile=)  will be read. The file format is a single line with username and password separated by a : (colon). The supplied credentials shoud be an account with administrative privileges.
 
-This application uses the REST-api described at https://your.op5.sever/api/help. Although TLS/SSL is used no verification of the certificate isdon as most Op5-servers have a self-signed certificate.'
+This application uses the REST-api described at https://your.op5.sever/api/help. Although TLS/SSL is used, no verification of the certificate is done as most Op5-servers have a self-signed certificate.'
 
 version Op5util::VERSION
 
@@ -20,11 +20,11 @@ arguments :strict
 
 monitor = nil
 
-desc 'Username used to authenticate with the Op5 server'
+desc 'Username used to authenticate with the Op5 server, if not supplied the environment variable OP5USER will be used'
 arg_name 'username'
 flag [:u, :username]
 
-desc 'Password used to authenticate with the Op5 server'
+desc 'Password used to authenticate with the Op5 server, if not supplied the environment variable OP5PASS will be used'
 arg_name 'password'
 flag [:p, :password]
 
@@ -38,10 +38,10 @@ arg_name 'authfile'
 flag [:f, :authfile]
 
 desc 'Add a new host to be monitored by the Op5 server'
-long_desc 'The host is added using default values for max_check_attempts (3), notification_interval (0, aka notify once), notification_period (24x7), etc and using the default-host-template. For most off-the-shelf newly installed servers these values usually are sufficient and can be fine-tuned using the web-gui if so should be needed.'
-arg_name 'hostname.with-fqdn.to.add'
+long_desc 'The host is added using mostly default values for max_check_attempts (3), notification_interval (0, aka notify once), notification_period (24x7), etc using the default-host-template. For most off-the-shelf newly installed servers these values usually are sufficient and can be fine-tuned using the web-gui if so should be needed.'
+arg_name 'hostname'
 command :add do |c|
-  c.desc 'Alias for host, defaults to hostname with the fqdn removed if not entered.'
+  c.desc 'Alias for host, defaults to hostname with the domain name removed'
   c.flag [:a, :alias]
 
   c.desc 'Hostgroup(s) to which the new host will be added'
@@ -51,7 +51,7 @@ command :add do |c|
   c.default_value ['support-group']
   c.flag [:c, :contactgroups], :multiple => true
 
-  c.desc 'IP-address of host, resolved through DNS if not supplied'
+  c.desc 'IP-address of host, resolved with DNS from hostname if not supplied'
   c.flag [:i, :ipaddr]
 
   c.action do |_global_options, options, args|
@@ -101,7 +101,7 @@ command :status do |c|
   c.switch [:s, :short]
 
   c.desc 'Print a summary with hosts listed and service information per hsot'
-  c.switch [:l, :hosts]
+  c.switch [:l, :long]
 
   c.action do |_global_options, options, args|
     if args.count.zero?
@@ -112,7 +112,7 @@ command :status do |c|
   end
 end
 
-desc 'Acknowledge outstanding host and service alarms, without host - *ALL* outstanding alarms and services are acknowledged - use with care, acknowledgement is "sticky" - it lasts until host/service recovery.'
+desc 'Acknowledge outstanding host and service alarms, without host - *ALL* outstanding alarms and services are acknowledged, ackn is "sticky" - it lasts until host/service recovery.'
 arg_name 'host'
 command :acknowledge do |c|
   c.desc 'comment on acknowledgement'
@@ -122,7 +122,10 @@ command :acknowledge do |c|
   c.desc 'Make comment persistent after problems are resolved'
   c.switch [:p, :persistent]
 
-    c.action do |_global_options, options, args|
+  c.desc 'Print more verbose output'
+  c.switch [:v, :verbose]
+
+  c.action do |_global_options, options, args|
     if args[0].nil?
       monitor.acknowledge_all_alarms(options)
     else
@@ -131,21 +134,25 @@ command :acknowledge do |c|
   end
 end
 
-desc 'Schedule host and all host services checks to be performed for given host'
+desc 'Schedule host and all host services checks to be performed swiftly for the given host'
 arg_name 'host'
 command :schedule do |c|
-  c.action do |_global_options, _options, args|
-    monitor.schedule_checks(args[0])
+  c.desc 'Print more information about progress'
+  c.switch [:v, :verbose]
+
+  c.action do |_global_options, options, args|
+    monitor.schedule_checks(args[0], options)
   end
 end
 
-desc 'List all hostgroup_names'
+desc 'List hostgroups, optionally with member and service info, Usage examples: \'op5util hostgroups\' to list all hostgroups, \'op5util hostgroups -l linux_hosts\' to list members and services for the linux_hosts hostgroup'
+arg_name 'hostgroup'
 command :hostgroups do |c|
-  c.desc 'Include servicechecks and hosts for hostgroup in output, warning - this may take time'
+  c.desc 'Include servicechecks and hosts for hostgroup in output, warning - this may take time if done for all hostgroups'
   c.switch [:l, :long]
 
-  c.action do |_global_options, options, _args|
-    monitor.list_hostgroups(options)
+  c.action do |_global_options, options, args|
+    monitor.list_hostgroups(args[0], options)
   end
 end
 

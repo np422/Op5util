@@ -1,3 +1,7 @@
 pkg/*/
 !pkg/*pkg
 *~
+.bundle/
+vendor/
+pkg/op5util-0.0.*.gem
+.DS_Store

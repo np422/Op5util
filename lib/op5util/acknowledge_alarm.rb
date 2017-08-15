@@ -5,9 +5,29 @@ module Op5util
   class Monitor
     def acknowledge_host_alarms(host, options)
       host_states = host_status(host)
-      ack_host_alarm(host, options) if host_states[:host] > 0
-      host_states[:services].each do |s|
-        ack_host_service(host, s, options)
+      if host_states[:host] > 0
+        puts 'Acknowledge host alarm for host ' + host
+        ack_host_alarm(host, options)
+      else
+        puts 'No alarm for host ' + host + ', not acking host'
+      end
+      if host_states[:services].count > 0
+        host_states[:services].each do |s|
+          ack_host_service(host, s, options)
+          puts "Service \"#{s}\" acknowledged" if options[:verbose]
+        end
+        puts 'All service alarms for host ' + host + ' acknowledged'
+      else
+        puts "No service alarms to acknowledge for host #{host}"
+      end
+    end
+
+    def acknowledge_all_alarms(options)
+      response = self.class.get(@base_uri + 'config/host?format=json',
+                                basic_auth: @auth, verify: false)
+      raise ApiError unless response.code == 200
+      JSON.parse!(response.body).map { |h| h['name'] }.each do |host|
+        acknowledge_host_alarms(host, options)
       end
     end
 
@@ -49,11 +69,10 @@ module Op5util
                                  headers: { 'Content-Type' => 'application/json' },
                                  body: body, basic_auth: @auth, verify: false)
       raise ApiError unless response.code == 200
-      puts "Alarm for service \"#{service}\" acknowledged"
+      puts "Alarm for service \"#{service}\" acknowledged" if options[:verbose]
     end
 
     def host_status(host)
-      puts @base_uri + "status/host/#{host}?format=json"
       response = self.class.get(@base_uri + "status/host/#{host}?format=json",
                                 basic_auth: @auth, verify: false)
       raise ApiError unless response.code == 200

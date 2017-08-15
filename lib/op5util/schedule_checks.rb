@@ -3,9 +3,9 @@
 module Op5util
   # Foo
   class Monitor
-    def schedule_checks(host)
+    def schedule_checks(host, options)
       schedule_host_check(host)
-      schedule_service_checks_for_host(host)
+      schedule_service_checks_for_host(host, options)
     end
 
     private
@@ -38,12 +38,16 @@ module Op5util
       response = self.class.get(@base_uri + "config/host/#{host}?format=json",
                                 basic_auth: @auth, verify: false)
       raise ApiError unless response.code == 200
-      host_info = JSON.parse!(response.body)
-      services = host_info['services'].map { |s| s['service_description'] }
-      host_info['hostgroups'].each do |hg|
+      host_config = JSON.parse!(response.body)
+      if host_config['services'].nil?
+        services = []
+      else
+        services = host_config['services'].map { |s| s['service_description'] }
+      end
+      host_config['hostgroups'].each do |hg|
         services += hostgroup_services(hg)
       end
-      services
+      services.nil? ? [] : services
     end
 
     def build_service_check_body(host, service_description)
@@ -53,15 +57,16 @@ module Op5util
         service_description: service_description }.to_json
     end
 
-    def schedule_service_checks_for_host(host)
+    def schedule_service_checks_for_host(host, options)
       service_description_for_host(host).each do |s|
         body = build_service_check_body(host, s)
         response = self.class.post(@base_uri + 'command/SCHEDULE_SVC_CHECK?format=json',
                                    headers: { 'Content-Type' => 'application/json' },
                                    body: body, basic_auth: @auth, verify: false)
         raise ApiError unless response.code == 200
-        puts "Service check for service \"#{s}\" scheduled"
+        puts "Service check for service \"#{s}\" scheduled" if options[:verbose]
       end
+      puts "All services for host #{host} scheduled for check"
     end
   end
 end

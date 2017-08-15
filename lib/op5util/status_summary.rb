@@ -5,7 +5,7 @@ module Op5util
   # Foo
   class Monitor
     def status_summary(options)
-      if options[:hosts]
+      if options[:long]
         print_hosts_summary
       else
         print_summary
@@ -33,7 +33,7 @@ module Op5util
       full_status = JSON.parse!(get_host_status(host))
       row = []
       row << host
-      row << state_to_s(full_status['state'].to_i)
+      row << host_state_to_s(full_status['state'].to_i)
       row << full_status['num_services'].to_s.green
       row << full_status['num_services_hard_ok'].to_s.green
       row << full_status['num_services_hard_warn'].to_s.yellow
@@ -56,7 +56,7 @@ module Op5util
     def get_service_statuses
       service_urls = ['=%5Bservices%5D%20all',
                       '=%5Bservices%5D%20acknowledged%20%3D%201',
-                      '=%5Bhosts%5D%20state%20!%3D%200%20and%20acknowledged%20%3D%200%20and%20scheduled_downtime_depth%20%3D%200']
+                      '=[services] state !%3D 0 and acknowledged %3D 0 and scheduled_downtime_depth %3D 0 and host.scheduled_downtime_depth %3D 0']
       service_statuses = []
       service_urls.each do |url|
         response = self.class.get(@base_uri + 'filter/count?query' + url,

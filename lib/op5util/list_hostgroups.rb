@@ -1,13 +1,19 @@
 # rubocop:disable LineLength, MethodLength, AbcSize
 # Foo
 module Op5util
+  class NoSuchHostgroupError; end
   # Foo
   class Monitor
-    def list_hostgroups(options)
+    def list_hostgroups(hostgroup, options)
       response = self.class.get(@base_uri + 'config/hostgroup?format=json',
                                 basic_auth: @auth, verify: false)
       raise ApiError unless response.code == 200
-      hostgroups = JSON.parse!(response.body).map { |h| h['name'] }
+      if hostgroup.nil?
+        hostgroups = JSON.parse!(response.body).map { |h| h['name'] }
+      else
+        hostgroups = JSON.parse!(response.body).map { |h| h['name'] }.select { |hg| hg == hostgroup }
+        raise NoSuchHostgroupError if hostgroups.empty?
+      end
       if options[:long]
         list_hostgroups_with_services(hostgroups)
       else
@@ -23,7 +29,12 @@ module Op5util
       raise ApiError unless response.code == 200
       hostgroup = JSON.parse!(response.body)
       hostgroup['members'].nil? ? '' : members = hostgroup['members'].join(',')
-      hostgroup['services'].nil? ? '' : services = hostgroup['services'].map { |s| '"' + s['service_description'] + '"' }.join(',')
+      max = max_cell_width
+      if hostgroup['services'].nil?
+        services = ''
+      else
+        services = hostgroup['services'].map { |s| fold_string('"' + s['service_description'] + '"', max) }.join("\n")
+      end
       [members, services]
     end
 
@@ -42,7 +53,7 @@ module Op5util
         t.add_separator
         hostgroups.each do |h|
           (members, services) = hostgroup_info(h)
-          t.add_row [h, fold_string(members, max), fold_string(services, max)]
+          t.add_row [h, fold_string(members, max), services ]
         end
       end
       puts table

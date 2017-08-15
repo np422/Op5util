@@ -1,4 +1,4 @@
-# Ensure we require the local version and not one we might have installed already
+# rubocop:disable UselessAssignment, StringLiterals
 require File.join([File.dirname(__FILE__), 'lib', 'op5util', 'version.rb'])
 spec = Gem::Specification.new do |s|
   s.name = 'op5util'
@@ -6,7 +6,9 @@ spec = Gem::Specification.new do |s|
   s.author = 'Niklas Paulsson'
   s.email = 'niklasp@gmail.com'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A utility to do common Op5 monitoring server administion from the commandline'
+  s.licenses = ['MIT License']
+  s.homepage = 'https://github.com/np422/Op5util'
+  s.summary = 'A utility to do common Op5 administration from the commandline'
   s.files = `git ls-files`.split("
 ")
   s.require_paths << 'lib'
@@ -15,9 +17,9 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options << '--title' << 'op5util' << '--main' << 'README.rdoc'
   s.bindir = 'bin'
   s.executables << 'op5util'
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rdoc')
-  s.add_development_dependency('test-unit')
+  s.add_development_dependency 'rake', '~> 0'
+  s.add_development_dependency 'rdoc', '~> 0'
+  s.add_development_dependency 'test-unit', '~> 0'
   s.add_runtime_dependency('colorize', '0.8.1')
   s.add_runtime_dependency('gli', '2.16.1')
   s.add_runtime_dependency('httparty', '0.15.5')

@@ -77,11 +77,12 @@ end
 desc 'Schedule fixed downtime for a host'
 arg_name 'host'
 command :downtime do |c|
-  c.desc 'Time period for downtime, in number of hours'
+  c.desc 'Duration of downtime, in number of hours'
   c.default_value '2'
   c.flag [:t, :time]
 
   c.desc 'Start downtime in X hours. If not given, downtime starts now'
+  c.default_value 0
   c.flag [:w, :wait]
 
   c.desc 'Comment on reason for downtime downtime'
@@ -111,41 +112,44 @@ command :status do |c|
   end
 end
 
-desc 'Acknowledge outstanding host and service alarms, without host - *ALL* outstanding alarms and services are acknowledged - use with care'
+desc 'Acknowledge outstanding host and service alarms, without host - *ALL* outstanding alarms and services are acknowledged - use with care, acknowledgement is "sticky" - it lasts until host/service recovery.'
 arg_name 'host'
 command :acknowledge do |c|
   c.desc 'comment on acknowledgement'
-  c.default_value 'Work in progress to resolve issue'
+  c.default_value 'Work in progress to resolve problem'
   c.flag [:c, :comment]
 
-  c.desc 'Make comment persistent after problems resolved'
+  c.desc 'Make comment persistent after problems are resolved'
   c.switch [:p, :persistent]
 
-  c.action do |global_options, options, args|
-    puts 'acknowledge command ran'
-    ap global_options
-    ap options
-    ap args
+    c.action do |_global_options, options, args|
+    if args[0].nil?
+      monitor.acknowledge_all_alarms(options)
+    else
+      monitor.acknowledge_host_alarms(args[0], options)
+    end
   end
 end
 
-desc 'Schedule host and all host services checks to be performed for host'
+desc 'Schedule host and all host services checks to be performed for given host'
 arg_name 'host'
 command :schedule do |c|
-  c.action do |global_options, options, args|
+  c.action do |_global_options, _options, args|
+    monitor.schedule_checks(args[0])
   end
 end
 
-desc 'List hostgroup_names'
+desc 'List all hostgroup_names'
 command :hostgroups do |c|
-  c.desc 'Include servicechecks for hostgropu in output'
-  c.flag [:l, :long]
-  c.action do |global_options, options, args|
+  c.desc 'Include servicechecks and hosts for hostgroup in output, warning - this may take time'
+  c.switch [:l, :long]
+
+  c.action do |_global_options, options, _args|
+    monitor.list_hostgroups(options)
   end
 end
 
-
-pre do |global, command, options, args|
+pre do |global, _command, _options, _args|
   Op5util.check_auth(global) ? true : false
   if global[:monitor].nil? && ENV['MONITOR'].nil?
     false

@@ -11,15 +11,26 @@ Those two use-cases were my biggest itches when I first started to use
 saved curl commands to interact with the REST-api and soon op5util.rb
 was born.
 
-In its current version Op5util can check status of hosts, make a
-summary of all monitored hosts health, add new hosts to be monitored,
-    add hosts to new hostgroups, schedule downtime and acknowledge alarms.
-
 The design nowdays is reasonable modular so new functions can be easily
 added if they are needed, pull requests are happily accepted.
 
 I use op5util daily in a production environment, but it comes with no
 warranties.
+
+## Capabilities
+
+Currently op5util have implemented these functions:
+
+* Add a new host to be monitored by Op5
+* Add a existing host to more hostgroups
+* Schedule downtime for a host
+* Show status summary of all services/host and summary of service per host
+* Show status summary of services for a host and list all services w. status for a host
+* Schedule forced checks of a host and the hosts services to be done now
+* List all hostgroups available, including members and service checks
+
+These are the most common vanilla administrative tasks I perform to keep
+the networked monitored.
 
 ## Screenshots
 

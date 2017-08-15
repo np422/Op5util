@@ -42,23 +42,26 @@ module Op5util
     end
 
     def print_full_status(full_status)
-      terminal_width = TermInfo.screen_size[1]
-      # The magic number 15 is the size of tables cells padding + the heading 'State'
-      # and a an extra characters for safe layout on narrow terminals
-      max_field_length = ((terminal_width - 15) / 2).floor
+      host_status = "The host #{full_status['name']} is "
+      host_status += full_status['hard_state'].zero? ? 'UP'.green : 'DOWN'.red
+      host_status += ', last check was done ' + pp_unixtime_ago(full_status['last_check'])
+      host_status += " seconds ago.\n"
+      puts host_status
+      max_field_length = max_cell_width
       table = Terminal::Table.new do |t|
         t.add_row %w[Service State Info]
         t.add_separator
-        full_status['services'].each do |s|
-          t.add_row [fold_string(s, max_field_length),
-                     state_to_s(service_state(s, full_status)),
-                     fold_string(service_info(s, full_status), max_field_length)]
+        full_status['services'].each do |service|
+          t.add_row [fold_string(service, max_field_length),
+                     state_to_s(service_state(service, full_status)),
+                     fold_string(service_info(service, full_status), max_field_length)]
         end
       end
       puts table
     end
 
     def fold_string(s, width)
+      return nil if s.nil?
       start_pos = 0
       result = ''
       while start_pos < s.length

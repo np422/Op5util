@@ -15,10 +15,12 @@ module Op5util
     private
 
     def build_schedule_downtime_request_body(host, options)
+      start_time = Time.now.to_i + options[:wait].to_i
+      end_time   = start_time + + options[:time].to_i * 3600 + 10
       {
         host_name:      host.to_s,
-        start_time:     Time.now.to_i,
-        end_time:       Time.now.to_i + options[:time].to_i * 3600 + 10,
+        start_time:     start_time,
+        end_time:       end_time,
         fixed:          1,
         trigger_id:     0,
         duration:       options[:time].to_i * 3600 + 10,

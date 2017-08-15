@@ -79,7 +79,7 @@ Once the problem is resolved and the host is up, ```op5util schedule gitlab01, b
 
 Download the latest pkg/op5util-0.X.Y.gem from this repo and install using
 ```shell
-gem install op5util-0.0.3.gem
+gem install op5util-0.1.0.gem
 ```
 
 ## Usage

@@ -122,9 +122,9 @@ NAME
     About authentication, if you supply username/password as command-line flags they will be
     used first. If username/password options isn't supplied on the command-line, the environment
     variables OP5USER and OP5PASS will be used. If there are no environment variables present,
-    the file ~/.op5pass (or --authfile=) will be read. The file format is a single line with
-    username and password separated by a : (colon). The supplied credentials shoud be an
-    account with administrative privileges.
+    the file ~/.op5pass (or --authfile=, or environment OP5AUTHFILE) will be read. The file
+    format is a single line with username and password separated by a : (colon). The supplied
+    credentials shoud be an account with administrative privileges.
 
     This application uses the REST-api described at https://your.op5.sever/api/help. Although
     TLS/SSL is used, no verification of the certificate is done as most Op5-servers have a
@@ -134,11 +134,12 @@ SYNOPSIS
     op5util [global options] command [command options] [arguments...]
 
 VERSION
-    0.0.9
+    0.1.3
 
 GLOBAL OPTIONS
-    -f, --authfile=authfile - Authfile containing "username:password" used to authenticate
-                              with Op5 server (default: ~/.op5pass)
+    -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5
+                              server, enviromnent variable OP5AUTHFILE will override the default
+                              value (default: ~/.op5pass)
     --help                  - Show this message
     -m, --monitor=monitor   - Hostname or IP-address of the Op5 monitor server, if not supplied
                               the environment variable MONITOR will be used (default: none)
@@ -149,16 +150,18 @@ GLOBAL OPTIONS
     --version               - Display the program version
 
 COMMANDS
-    acknowledge    - Acknowledge outstanding host and service alarms.
+    acknowledge    - Acknowledge outstanding host and service alarms, without host - *ALL*
+                     outstanding alarms and services are acknowledged, ackn is "sticky" - it
+                     lasts until host/service recovery.
     add            - Add a new host to be monitored by the Op5 server
     add_hostgroups - Add host to a new hostgroup(s)
     downtime       - Schedule fixed downtime for a host
     help           - Shows a list of commands or help for one command
-    hostgroups     - List hostgroups, optionally with member and service info
+    hostgroups     - List hostgroups, optionally with member and service info, Usage examples:
+                     'op5util hostgroups' to list all hostgroups, 'op5util hostgroups -l linux_hosts'
                      to list members and services for the linux_hosts hostgroup
     schedule       - Schedule host and all host services checks to be performed swiftly for the given host
     status         - Show monitoring status, if no host is given all hosts/services are included
-
 ```
 
 ### Command usage

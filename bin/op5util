@@ -9,7 +9,7 @@ include GLI::App
 
 program_desc 'A small utility to perform common Op5 administration tasks from the command line'
 program_long_desc '
-About authentication, if you supply username/password as command-line flags they will be used first. If username/password options isn\'t supplied on the command-line, the environment variables OP5USER and OP5PASS will be used. If there are no environment variables present, the file ~/.op5pass (or --authfile=)  will be read. The file format is a single line with username and password separated by a : (colon). The supplied credentials shoud be an account with administrative privileges.
+About authentication, if you supply username/password as command-line flags they will be used first. If username/password options isn\'t supplied on the command-line, the environment variables OP5USER and OP5PASS will be used. If there are no environment variables present, the file ~/.op5pass (or --authfile=, or environment OP5AUTHFILE)  will be read. The file format is a single line with username and password separated by a : (colon). The supplied credentials shoud be an account with administrative privileges.
 
 This application uses the REST-api described at https://your.op5.sever/api/help. Although TLS/SSL is used, no verification of the certificate is done as most Op5-servers have a self-signed certificate.'
 
@@ -32,7 +32,7 @@ desc 'Hostname or IP-address of the Op5 monitor server, if not supplied the envi
 arg_name 'monitor'
 flag [:m, :monitor]
 
-desc 'Authfile containing "username:password" used to authenticate with Op5 server'
+desc 'Authfile containing "username:password" used to authenticate with Op5 server, enviromnent variable OP5AUTHFILE will override the default value'
 default_value '~/.op5pass'
 arg_name 'authfile'
 flag [:f, :authfile]
@@ -157,8 +157,11 @@ command :hostgroups do |c|
 end
 
 pre do |global, _command, _options, _args|
+  global[:authfile] = ENV['OP5AUTHFILE'] if !ENV['OP5AUTHFILE'].nil? && (global[:authfile] == '~/.op5pass')
   Op5util.check_auth(global) ? true : false
   if global[:monitor].nil? && ENV['MONITOR'].nil?
+    puts 'Hostname of Op5 server is required, Use -m/--monitor=op5.server.com or environment variable MONITOR'
+    raise Op5util::NoMonitorServerError
     false
   else
     global[:monitor] = ENV['MONITOR'] if global['monitor'].nil?
@@ -174,7 +177,7 @@ on_error do |exception|
   # return false to skip default error handling
   # TODO: Catch error and print an apropriate message
   puts "Error, #{exception}"
-  false
+  true
 end
 
 exit run(ARGV)

@@ -8,6 +8,9 @@
 # Toplevel documentation
 module Op5util
   class NoAuthMethodError < StandardError; end
+  class UnacceptableAuthFilePermission < StandardError; end
+  class NoMonitorServerError < ArgumentError; end
+
   def check_authfile(file)
     authline = File.open(File.expand_path(file)).readline.chomp
   rescue StandardError
@@ -18,6 +21,11 @@ module Op5util
   end
 
   def check_auth(global_opts)
+    authfile_path = File.expand_path(global_opts[:authfile])
+    if File.exist?(authfile_path) && File.stat(authfile_path).mode.to_s(8)[-2, 2] != '00'
+      puts "Authfile must not be readable by other than owner, run \"chmod 400 #{global_opts[:authfile]}\" to set better permissions"
+      raise UnacceptableAuthFilePermission
+    end
     if !global_opts[:username].nil? && !global_opts[:password].nil?
       true
     elsif !ENV['OP5USER'].nil? && !ENV['OP5PASS'].nil?
@@ -28,6 +36,7 @@ module Op5util
       (global_opts[:username], global_opts[:password]) = check_authfile(global_opts[:authfile])
       global_opts[:username].nil? ? false : true
     else
+      puts 'No method of authentication with Op5-Server given'
       raise NoAuthMethodError
     end
   end

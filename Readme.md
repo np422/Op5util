@@ -60,7 +60,7 @@ with the terminal output by op5util.
 
 ### Another use case
 
-Op5util is installed using ```gem install pkg/0.1.0.pkg```
+Op5util is installed using ```gem install op5util```
 
 The export of the environment variable MONITOR is to avoid using the command-line
 flag ```-m monitor.ipa.hemma``` on every command, and by saving credentials in the in the .op5pass
@@ -92,14 +92,14 @@ and the other gems that op5util depends on.
 user@host:~$ sudo gem install op5util
 ```
 
-Latest version is 0.1.3, you can verify that op5util is installed correctly with:
+Latest version is 0.1.4, you can verify that op5util is installed correctly with:
 
 ``` shell
 user@host:~$ gem list --details op5util
 
 *** LOCAL GEMS ***
 
-op5util (0.1.3)
+op5util (0.1.4)
     Author: Niklas Paulsson
     Homepage: https://github.com/np422/Op5util
     License: MIT License
@@ -139,7 +139,7 @@ SYNOPSIS
     op5util [global options] command [command options] [arguments...]
 
 VERSION
-    0.1.3
+    0.1.4
 
 GLOBAL OPTIONS
     -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5
@@ -211,6 +211,10 @@ free to leave a bug-reports or feature requests as an issue in this repo.
 /Niklas
 
 ## Version history
+
+### 0.1.4
+
+Gemspec filespec corrected to avoid unnecessary large .gem-files.
 
 ### 0.1.3
 

@@ -1,4 +1,4 @@
-# rubocop:disable UselessAssignment, StringLiterals
+# rubocop:disable UselessAssignment
 require File.join([File.dirname(__FILE__), 'lib', 'op5util', 'version.rb'])
 spec = Gem::Specification.new do |s|
   s.name = 'op5util'
@@ -9,8 +9,8 @@ spec = Gem::Specification.new do |s|
   s.licenses = ['MIT License']
   s.homepage = 'https://github.com/np422/Op5util'
   s.summary = 'A utility to do common Op5 administration from the commandline'
-  s.files = `git ls-files`.split("
-")
+  s.files = %w[bin/op5util lib/op5util.rb LICENSE op5util.gemspec] +
+            %w[op5util.rdoc README.rdoc Readme.md] + Dir.glob('lib/op5util/*')
   s.require_paths << 'lib'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc', 'op5util.rdoc']

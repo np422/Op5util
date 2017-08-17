@@ -77,10 +77,33 @@ Once the problem is resolved and the host is up, ```op5util schedule gitlab01, b
 
 ## Installation
 
-Download the latest pkg/op5util-0.X.Y.gem from this repo and install using
+Use gem install, probably with sudo if you are using a system-global ruby version. This will automatically
+install op5util with dependencies.
+
 ```shell
-gem install op5util-0.1.0.gem
+$ sudo gem install op5util
+Fetching: colorize-0.8.1.gem (100%)
+Successfully installed colorize-0.8.1
+Fetching: gli-2.16.1.gem (100%)
+Successfully installed gli-2.16.1
+Fetching: multi_xml-0.6.0.gem (100%)
+Successfully installed multi_xml-0.6.0
+Fetching: httparty-0.15.5.gem (100%)
+When you HTTParty, you must party hard!
+Successfully installed httparty-0.15.5
+Fetching: unicode-display_width-1.3.0.gem (100%)
+Successfully installed unicode-display_width-1.3.0
+Fetching: terminal-table-1.8.0.gem (100%)
+Successfully installed terminal-table-1.8.0
+Fetching: op5util-0.1.1.gem (100%)
+Successfully installed op5util-0.1.1
+Done installing documentation for colorize, gli, multi_xml, httparty, unicode-display_width, terminal-table, op5util after 2 seconds
+7 gems installed
 ```
+
+Latest version is 0.1.1
+
+Rubygem homepage for op5util is available at: https://rubygems.org/gems/op5util
 
 ## Usage
 

@@ -156,6 +156,13 @@ command :hostgroups do |c|
   end
 end
 
+desc 'Show instruction on howto setup tab autocomplete for op5util in your shell'
+command :autocomplete do |c|
+  c.action do
+    monitor.autocomplete
+  end
+end
+
 pre do |global, _command, _options, _args|
   global[:authfile] = ENV['OP5AUTHFILE'] if !ENV['OP5AUTHFILE'].nil? && (global[:authfile] == '~/.op5pass')
   Op5util.check_auth(global) ? true : false

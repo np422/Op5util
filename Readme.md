@@ -92,14 +92,14 @@ and the other gems that op5util depends on.
 user@host:~$ sudo gem install op5util
 ```
 
-Latest version is 0.1.4, you can verify that op5util is installed correctly with:
+Latest version is 0.1.5, you can verify that op5util is installed correctly with:
 
 ``` shell
 user@host:~$ gem list --details op5util
 
 *** LOCAL GEMS ***
 
-op5util (0.1.4)
+op5util (0.1.5)
     Author: Niklas Paulsson
     Homepage: https://github.com/np422/Op5util
     License: MIT License
@@ -139,7 +139,7 @@ SYNOPSIS
     op5util [global options] command [command options] [arguments...]
 
 VERSION
-    0.1.4
+    0.1.5
 
 GLOBAL OPTIONS
     -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5
@@ -160,6 +160,7 @@ COMMANDS
                      lasts until host/service recovery.
     add            - Add a new host to be monitored by the Op5 server
     add_hostgroups - Add host to a new hostgroup(s)
+    autocomplete   - Show instruction on howto setup tab autocomplete for op5util in your shell
     downtime       - Schedule fixed downtime for a host
     help           - Shows a list of commands or help for one command
     hostgroups     - List hostgroups, optionally with member and service info, Usage examples:
@@ -211,6 +212,10 @@ free to leave a bug-reports or feature requests as an issue in this repo.
 /Niklas
 
 ## Version history
+
+### 0.1.5
+
+Added template for shell autocomplete of op5util command (bash/zsh)
 
 ### 0.1.4
 

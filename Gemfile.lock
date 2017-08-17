@@ -1,11 +1,10 @@
 PATH
   remote: .
   specs:
-    op5util (0.1.0)
+    op5util (0.1.1)
       colorize (= 0.8.1)
       gli (= 2.16.1)
       httparty (= 0.15.5)
-      ruby-terminfo (= 0.1.1)
       terminal-table (= 1.8.0)
 
 GEM
@@ -20,7 +19,6 @@ GEM
     power_assert (0.2.6)
     rake (12.0.0)
     rdoc (5.1.0)
-    ruby-terminfo (0.1.1)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     test-unit (3.2.5)
@@ -37,7 +35,6 @@ DEPENDENCIES
   op5util!
   rake
   rdoc
-  ruby-terminfo
   terminal-table
   test-unit
 

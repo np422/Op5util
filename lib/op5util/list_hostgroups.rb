@@ -42,7 +42,8 @@ module Op5util
       # The magic number 15 is the size of tables cells padding + the heading 'State'
       # and a an extra characters for safe layout on narrow terminals, down to
       # 80 characters width tested.
-      terminal_width = TermInfo.screen_size[1]
+      require 'io/console'
+      (_terminal_height, terminal_width) = IO.console.winsize
       ((terminal_width - 15) / 2).floor
     end
 

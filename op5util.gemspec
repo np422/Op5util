@@ -23,6 +23,5 @@ spec = Gem::Specification.new do |s|
   s.add_runtime_dependency('colorize', '0.8.1')
   s.add_runtime_dependency('gli', '2.16.1')
   s.add_runtime_dependency('httparty', '0.15.5')
-  s.add_runtime_dependency('ruby-terminfo', '0.1.1')
   s.add_runtime_dependency('terminal-table', '1.8.0')
 end

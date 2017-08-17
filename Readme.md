@@ -95,13 +95,13 @@ Fetching: unicode-display_width-1.3.0.gem (100%)
 Successfully installed unicode-display_width-1.3.0
 Fetching: terminal-table-1.8.0.gem (100%)
 Successfully installed terminal-table-1.8.0
-Fetching: op5util-0.1.2.gem (100%)
+Fetching: op5util-0.1.3.gem (100%)
 Successfully installed op5util-0.1.2
 Done installing documentation for colorize, gli, multi_xml, httparty, unicode-display_width, terminal-table, op5util after 2 seconds
 7 gems installed
 ```
 
-Latest version is 0.1.2
+Latest version is 0.1.3
 
 Rubygem homepage for op5util is available at: https://rubygems.org/gems/op5util
 
@@ -201,3 +201,10 @@ Please, give my repo a github star or drop me line if you find this utility usef
 free to leave a bug-reports or feature requests as an issue in this repo.
 
 /Niklas
+
+## Version history
+
+### 0.1.3
+
+Environment variable OP5AUTHFILE possible to use instead of --authfile, check permission
+of authfile and refuse to start if readable by other than owner.

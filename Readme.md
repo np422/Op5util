@@ -77,31 +77,36 @@ Once the problem is resolved and the host is up, ```op5util schedule gitlab01, b
 
 ## Installation
 
-Use gem install, probably with sudo if you are using a system-global ruby version. This will automatically
-install op5util with dependencies.
+Install instructions intended for and tested on a fresh install of ubuntu 16.04.
 
-```shell
-$ sudo gem install op5util
-Fetching: colorize-0.8.1.gem (100%)
-Successfully installed colorize-0.8.1
-Fetching: gli-2.16.1.gem (100%)
-Successfully installed gli-2.16.1
-Fetching: multi_xml-0.6.0.gem (100%)
-Successfully installed multi_xml-0.6.0
-Fetching: httparty-0.15.5.gem (100%)
-When you HTTParty, you must party hard!
-Successfully installed httparty-0.15.5
-Fetching: unicode-display_width-1.3.0.gem (100%)
-Successfully installed unicode-display_width-1.3.0
-Fetching: terminal-table-1.8.0.gem (100%)
-Successfully installed terminal-table-1.8.0
-Fetching: op5util-0.1.3.gem (100%)
-Successfully installed op5util-0.1.3
-Done installing documentation for colorize, gli, multi_xml, httparty, unicode-display_width, terminal-table, op5util after 2 seconds
-7 gems installed
+Op5util is distributed as a ruby gem, so first ruby must be installed.
+
+``` shell
+user@host:~$ sudo apt-get install -y ruby
 ```
 
-Latest version is 0.1.3
+Use the command gem install, sudo is needed. This will automatically install op5util
+and the other gems that op5util depends on.
+
+```shell
+user@host:~$ sudo gem install op5util
+```
+
+Latest version is 0.1.3, you can verify that op5util is installed correctly with:
+
+``` shell
+user@host:~$ gem list --details op5util
+
+*** LOCAL GEMS ***
+
+op5util (0.1.3)
+    Author: Niklas Paulsson
+    Homepage: https://github.com/np422/Op5util
+    License: MIT License
+    Installed at: /var/lib/gems/2.3.0
+
+    A utility to do common Op5 administration from the commandline
+```
 
 Rubygem homepage for op5util is available at: https://rubygems.org/gems/op5util
 

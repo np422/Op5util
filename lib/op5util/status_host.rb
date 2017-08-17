@@ -4,7 +4,6 @@ module Op5util
   # Foo
   class Monitor
     require 'colorize'
-    require 'terminfo'
 
     def status_host(host, options)
       full_status = JSON.parse!(get_host_status(host))

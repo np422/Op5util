@@ -37,8 +37,8 @@ Those two use-cases were my biggest itches when I first started to use
 saved curl commands to interact with the REST-api and soon op5util.rb
 was born.
 
-The design nowdays is reasonable modular so new functions can be easily
-added if they are needed, pull requests are happily accepted.
+The design nowdays is reasonably modular so new functions can be easily
+added as needed, pull requests are happily accepted.
 
 I use op5util daily in a production environment, but it comes with no
 warranties.
@@ -50,6 +50,7 @@ Currently op5util have implemented these functions:
 * Add a new host to be monitored by Op5
 * Add a existing host to more hostgroups
 * Schedule downtime for a host
+* Acknowledge alarms for host/service
 * Show status summary of all services/host and summary of service per host
 * Show status summary of services for a host and list all services w. status for a host
 * Schedule forced checks of a host and the hosts services to be done now
@@ -67,9 +68,9 @@ Adding a host using ```op5util add -g linux_hosts wiki``` and at the same time a
 membership in the linux_hosts hostgroup for the host, so some standard service checks are
 defined.
 
-To avoid waiting for checks to be performed on the new host, we tell Op5 to check them
-now with the command ```op5util schedule wiki```, and after only a short wait we can
-take a look at the detailed host status with ```op5util status -l wiki```.
+To avoid waiting for checks to be performed on the new host, we tell Op5 to check the new
+host and it's services right away with the command ```op5util schedule wiki```, and after
+only a short wait we can take a look at the detailed host status with ```op5util status -l wiki```.
 
 ![Usage example](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/usecase2.png)
 
@@ -87,37 +88,37 @@ with the terminal output by op5util.
 
 Op5util is installed using ```gem install op5util```
 
-The export of the environment variable MONITOR is to avoid using the command-line
-flag ```-m monitor.ipa.hemma``` on every command, and by saving credentials in the in the .op5pass
-file you don't need type the -u/-p thereafter.
+The export of the environment variable MONITOR and saving credentials in the in the .op5pass
+file is to avoid using the command-line flags ```-m monitor.ipa.hemma -u user -p password```
+on every command.
 
-Check the overall status with the command ```op5util status```, as one host is down we request more
-info to be displayed with ```op5util status -l```, and we see that the host gitlab01 is down, to
+First check the overall status with the command ```op5util status```, as one host is down we request
+more info to be displayed with ```op5util status -l```, and we see that the host gitlab01 is down, to
 acknowledge the alarms, ```op5util acknowledge gitlab01```.
 
 Once the problem is resolved and the host is up, ```op5util schedule gitlab01```, because impatience,
- a final check with ```op5util status gitlab01```.
+and a final check with ```op5util status gitlab01```.
 
 ![screenshot](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/usecase1.png)
 
 ## Installation
 
-Install instructions intended for and tested on a fresh install of ubuntu 16.04.
+Install instructions are intended for and tested on a fresh install of ubuntu 16.04.
 
 Op5util is distributed as a ruby gem, so first ruby must be installed.
 
-``` shell
+```shell
 user@host:~$ sudo apt-get install -y ruby
 ```
 
-Use the command gem install, sudo is needed. This will automatically install op5util
-and the other gems that op5util depends on.
+Use the command gem install to install op5util, sudo is needed. This will automatically
+install op5util and the other gems that op5util depends on.
 
 ```shell
 user@host:~$ sudo gem install op5util
 ```
 
-Latest version is 0.1.6, you can verify that op5util is installed correctly with:
+The latest version is 0.1.6, you can verify that op5util is installed correctly using:
 
 ``` shell
 user@host:~$ gem list --details op5util
@@ -133,7 +134,7 @@ op5util (0.1.6)
     A utility to do common Op5 administration from the commandline
 ```
 
-Rubygem homepage for op5util is available at: https://rubygems.org/gems/op5util
+The rubygem homepage for op5util is available at: https://rubygems.org/gems/op5util
 
 ## Usage
 
@@ -141,9 +142,8 @@ There is no man-page, but the built in help text should do the job.
 
 If you enter the command ```op5util help``` the top-level documentation is displayed.
 
-IMHO git has very good command line interface and I've tried to make op5util to do user
-interaction in the same spirit as git.
-
+Help for a op5util command is diplayed with ```op5util help <command>```, examples are
+present below.
 
 ``` text
 NAME
@@ -196,11 +196,10 @@ COMMANDS
     status         - Show monitoring status, if no host is given all hosts/services are included
 ```
 
-### Command usage
+### Commands, help text example
 
-To get information about a specific command, use ```op5util help add``` , example below.
-
-``` textNAME
+``` text
+NAME
     add - Add a new host to be monitored by the Op5 server
 
 SYNOPSIS
@@ -259,7 +258,7 @@ Gemspec filespec corrected to avoid unnecessary large .gem-files.
 Environment variable OP5AUTHFILE possible to use instead of --authfile, check permission
 of authfile and refuse to start if readable by other than owner.
 
-## Example, use op5util with ansible
+## How op5util may be used with ansible
 
 Use the example below as a source of inspiration on how op5util can be used from
 an ansible playbook.

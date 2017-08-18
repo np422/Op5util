@@ -1,7 +1,28 @@
 # Op5util
 
-* auto-gen TOC:
-{:toc}
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Op5util](#op5util)
+  - [Introduction](#introduction)
+  - [Capabilities](#capabilities)
+  - [Screenshots, example usage](#screenshots-example-usage)
+    - [Add a host to op5, check host status](#add-a-host-to-op5-check-host-status)
+    - [Another use case](#another-use-case)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Command usage](#command-usage)
+  - [Roadmap, TODO](#roadmap-todo)
+  - [Contact, bug-reports etc](#contact-bug-reports-etc)
+  - [Version history](#version-history)
+    - [0.1.6](#016)
+    - [0.1.5](#015)
+    - [0.1.4](#014)
+    - [0.1.3](#013)
+  - [Example, use op5util with ansible](#example-use-op5util-with-ansible)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Introduction
 

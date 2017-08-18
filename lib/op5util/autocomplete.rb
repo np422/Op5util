@@ -20,28 +20,28 @@ _op5util()
 
     case "${op5command}" in
         acknowledge)
-            COMPREPLY=( $(compgen -W "-c --comment=Work_in_Progress -p --persistent --no-persistent -v --verbose --no-verbose SOME_OP5_HOST" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-c --comment=Work_in_Progress -p --persistent --no-persistent -v --verbose --no-verbose $(op5util hosts)" -- ${cur}) )
             ;;
         add)
-            COMPREPLY=( $(compgen -W "-a --alias=\" -c --contactgroups=\" -g --hostgroups=\" -i --ipaddr=\" HOST_TO_ADD" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-a --alias=\" -c --contactgroups=\" -g --hostgroups=\" -i --ipaddr=\" HOST_TO_ADD  $(op5util hostgroups)" -- ${cur}) )
             ;;
         add_hostgroups)
-            COMPREPLY=( $(compgen -W "-g --hostgroup= SOME_OP5_HOST" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-g --hostgroup=  $(op5util hosts)" -- ${cur}) )
             ;;
         autocomplete)
             COMPREPLY=( $(compgen -W "ENTER" -- ${cur}) )
             ;;
         downtime)
-            COMPREPLY=( $(compgen -W "-t --time=n_hour_duration_of_downtime -w --wait=n_hours_before_downtime_start -c --comment= SOME_OP5_HOST" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-t --time=n_hour_duration_of_downtime -w --wait=n_hours_before_downtime_start -c --comment=  $(op5util hosts)" -- ${cur}) )
             ;;
         hostgroups)
-            COMPREPLY=( $(compgen -W "-l --long SOME_OP5_HOSTGROUP" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-l --long  $(op5util hostgroups)" -- ${cur}) )
             ;;
         schedule)
-            COMPREPLY=( $(compgen -W "-v --verbose SOME_OP5_HOST" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-v --verbose  $(op5util hosts)" -- ${cur}) )
             ;;
         status)
-            COMPREPLY=( $(compgen -W "-l --long -s --short SOME_OP5_HOST" -- ${cur}) )
+            COMPREPLY=( $(compgen -W "-l --long -s --short  $(op5util hosts)" -- ${cur}) )
             ;;
         *)
             ;;

@@ -1,4 +1,9 @@
-## Op5util
+# Op5util
+
+* auto-gen TOC:
+{:toc}
+
+## Introduction
 
 Are you using Op5? Perhaps you do most of your work from the command-line
 and want to be able to do the most common Op5 tasks without logging in
@@ -28,9 +33,8 @@ Currently op5util have implemented these functions:
 * Show status summary of services for a host and list all services w. status for a host
 * Schedule forced checks of a host and the hosts services to be done now
 * List all hostgroups available, including members and service checks
-
-These are the most common vanilla administrative tasks I perform to keep
-the networked monitored.
+* List all hosts, with optioinal detailed info
+* Autocomplete template for bash/zsh is included
 
 ## Screenshots, example usage
 
@@ -202,15 +206,17 @@ COMMAND OPTIONS
 
 ## Roadmap, TODO
 
-A lot remains, the code really should be DRY'ied up, more automated pre-release tests, more
-documentation and perhaps even adding some more functions, but the current version of op5util
-is already useful to me in my day-time job, perhaps it also could be useful to other Op5
-administrators?
+A lot remains, the code really should be refactored and DRY'ied up, the commands probably need
+some re-thinking, more automated pre-release tests, more documentation and perhaps even
+adding some more functions, but the current version of op5util is already useful to me
+in my day-time job, perhaps it also could be useful to other Op5 administrators?
 
-Please, give my repo a github star or drop me line if you find this utility useful. Feel
-free to leave a bug-reports or feature requests as an issue in this repo.
+## Contact, bug-reports etc
 
-/Niklas
+Please, give my repo a github star or drop me line if you find this utility useful. You can
+contact me at niklasp@<insert googles mail-service here>.com
+
+And please feel free to leave bug-reports or feature requests as issues in this repo.
 
 ## Version history
 
@@ -238,7 +244,7 @@ Use the example below as a source of inspiration on how op5util can be used from
 an ansible playbook.
 
 In this example the variable 'hostgroups', which should be a list, will be used to
-assign hostgroups, otherwise the default hostgroup 'linux_hosts' will beassigned.
+assign hostgroups, otherwise the default hostgroup 'linux_hosts' will be assigned.
 
 ``` yaml
 ---

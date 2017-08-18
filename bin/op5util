@@ -156,6 +156,17 @@ command :hostgroups do |c|
   end
 end
 
+desc 'List all hosts, or detailed information about a single host'
+arg_name 'host'
+command :hosts do |c|
+  c.desc 'Show detailed information'
+  c.switch [:l, :long]
+
+  c.action do |_global_options, options, args|
+    monitor.list_hosts(args[0], options)
+  end
+end
+
 desc 'Show instruction on howto setup tab autocomplete for op5util in your shell'
 command :autocomplete do |c|
   c.action do

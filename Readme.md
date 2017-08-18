@@ -5,7 +5,7 @@ and want to be able to do the most common Op5 tasks without logging in
 to a web-gui?
 
 Or you want to start monitoring the newly installed hosts with Op5
-using your config management tool?
+using your ansible/chef/whatever config management tool?
 
 Those two use-cases were my biggest itches when I first started to use
 saved curl commands to interact with the REST-api and soon op5util.rb
@@ -92,14 +92,14 @@ and the other gems that op5util depends on.
 user@host:~$ sudo gem install op5util
 ```
 
-Latest version is 0.1.5, you can verify that op5util is installed correctly with:
+Latest version is 0.1.6, you can verify that op5util is installed correctly with:
 
 ``` shell
 user@host:~$ gem list --details op5util
 
 *** LOCAL GEMS ***
 
-op5util (0.1.5)
+op5util (0.1.6)
     Author: Niklas Paulsson
     Homepage: https://github.com/np422/Op5util
     License: MIT License
@@ -139,7 +139,7 @@ SYNOPSIS
     op5util [global options] command [command options] [arguments...]
 
 VERSION
-    0.1.5
+    0.1.6
 
 GLOBAL OPTIONS
     -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5
@@ -163,6 +163,7 @@ COMMANDS
     autocomplete   - Show instruction on howto setup tab autocomplete for op5util in your shell
     downtime       - Schedule fixed downtime for a host
     help           - Shows a list of commands or help for one command
+    hosts          - List all hosts, or detailed information about a single host
     hostgroups     - List hostgroups, optionally with member and service info, Usage examples:
                      'op5util hostgroups' to list all hostgroups, 'op5util hostgroups -l linux_hosts'
                      to list members and services for the linux_hosts hostgroup
@@ -213,6 +214,11 @@ free to leave a bug-reports or feature requests as an issue in this repo.
 
 ## Version history
 
+### 0.1.6
+
+New command 'hosts' which lists hosts, included example of ansible playbook
+in documentation.
+
 ### 0.1.5
 
 Added template for shell autocomplete of op5util command (bash/zsh)
@@ -225,3 +231,36 @@ Gemspec filespec corrected to avoid unnecessary large .gem-files.
 
 Environment variable OP5AUTHFILE possible to use instead of --authfile, check permission
 of authfile and refuse to start if readable by other than owner.
+
+## Example, use op5util with ansible
+
+Use the example below as a source of inspiration on how op5util can be used from
+an ansible playbook.
+
+In this example the variable 'hostgroups', which should be a list, will be used to
+assign hostgroups, otherwise the default hostgroup 'linux_hosts' will beassigned.
+
+``` yaml
+---
+- hosts: monitoring-clients
+  gather_facts: false
+  serial: 1
+  vars:
+    op5_user: 'user'
+    op5_password: 'password'
+    op5_server: 'op5server'
+  tasks:
+
+  - name: Check if Op5 registration is needed
+    shell: op5util -u {{ op5_user }} -p {{ op5_password }} -m {{ op5_server }} hosts
+    register: var_op5_hosts
+    delegate_to: localhost
+
+  - set_fact:
+      op5_hosts: "{{ var_op5_hosts.stdout_lines }}"
+
+  - name: Register client with Op5 monitoring server
+    shell: op5util -u {{ op5_user }} -p {{ op5_password }} -m {{ op5_server }} add -g {{ hostgroups | default([ 'linux_hosts' ])  | join(' -g ') }} {{ inventory_hostname }}
+    delegate_to: localhost
+    when: inventory_hostname not in op5_hosts
+```

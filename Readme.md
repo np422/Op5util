@@ -95,7 +95,7 @@ Check the overall status with the command ```op5util status```, as one host is d
 info to be displayed with ```op5util status -l```, and we see that the host gitlab01 is down, to
 acknowledge the alarms, ```op5util acknowledge gitlab01```.
 
-Once the problem is resolved and the host is up, ```op5util schedule gitlab01, because impatience,
+Once the problem is resolved and the host is up, ```op5util schedule gitlab01```, because impatience,
  a final check with ```op5util status gitlab01```.
 
 ![screenshot](https://raw.githubusercontent.com/np422/Op5util/master/screenshots/usecase1.png)

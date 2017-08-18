@@ -15,10 +15,6 @@
 - [Roadmap, TODO](#roadmap-todo)
 - [Contact, bug-reports etc](#contact-bug-reports-etc)
 - [Version history](#version-history)
-  - [0.1.6](#016)
-  - [0.1.5](#015)
-  - [0.1.4](#014)
-  - [0.1.3](#013)
 - [How op5util may be used with ansible](#how-op5util-may-be-used-with-ansible)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->

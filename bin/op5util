@@ -54,6 +54,9 @@ command :add do |c|
   c.desc 'IP-address of host, resolved with DNS from hostname if not supplied'
   c.flag [:i, :ipaddr]
 
+  c.desc 'Don\'t commit changes upon exit'
+  c.switch [:n, 'no-commit'.to_sym]
+
   c.action do |_global_options, options, args|
     # Your command logic here
     # If you have any errors, just raise them
@@ -69,8 +72,11 @@ command :add_hostgroups do |c|
   c.desc 'Hostgroup(s) that host should be a member of'
   c.flag [:g, :hostgroups], :multiple => true
 
+  c.desc 'Don\'t commit changes upon exit'
+  c.switch [:n, 'no-commit'.to_sym]
+
   c.action do |_global_options, options, args|
-    monitor.add_hostgroups(args[0], options[:hostgroups])
+    monitor.add_hostgroups(args[0], options[:hostgroups], options['no-commit'.to_sym])
   end
 end
 
@@ -100,7 +106,7 @@ command :status do |c|
   c.desc 'Print only a brief status information with stats summarized'
   c.switch [:s, :short]
 
-  c.desc 'Print a summary with hosts listed and service information per hsot'
+  c.desc 'Print a summary with hosts listed and service information per host'
   c.switch [:l, :long]
 
   c.action do |_global_options, options, args|
@@ -171,6 +177,13 @@ desc 'Show instruction on howto setup tab autocomplete for op5util in your shell
 command :autocomplete do |c|
   c.action do
     monitor.autocomplete
+  end
+end
+
+desc 'Commit any pending changes done'
+command :commit do |c|
+  c.action do
+    monitor.commit_op5_config
   end
 end
 

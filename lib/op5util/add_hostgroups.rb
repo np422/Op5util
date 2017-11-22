@@ -5,7 +5,7 @@ module Op5util
   class NoSuchHostError < StandardError; end
   # Foo
   class Monitor
-    def add_hostgroups(host, hostgroups)
+    def add_hostgroups(host, hostgroups, no_commit_config)
       hostgroups.each do |group|
         members = get_hostgroup_members(group)
         if !members.grep(host).empty?
@@ -16,6 +16,7 @@ module Op5util
           update_hostgroup(group, members)
         end
       end
+      commit_op5_config unless no_commit_config
     end
 
     private

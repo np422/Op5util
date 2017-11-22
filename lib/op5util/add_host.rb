@@ -16,12 +16,7 @@ module Op5util
                                  headers: { 'Content-Type' => 'application/json' },
                                  body: body, basic_auth: @auth, verify: false)
       raise ApiError, "Response code: #{response.code}, Message: #{response.body}" if response.code != 201
-      puts 'New host created'
-
-      url = @base_uri + 'config/change'
-      response = self.class.post(url, body: {}, basic_auth: @auth, verify: false)
-      raise ApiError, "Response code: #{response.code}, Message: #{response.body}" if response.code != 200
-      puts 'New op5-config saved'
+      commit_op5_config unless options['no-commit'.to_sym]
     end
 
     private

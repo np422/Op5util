@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    op5util (0.1.6)
+    op5util (0.1.7)
       colorize (= 0.8.1)
       gli (= 2.16.1)
       httparty (= 0.15.5)
@@ -39,4 +39,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   1.15.1
+   1.15.4

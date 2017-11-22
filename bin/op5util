@@ -127,7 +127,6 @@ command :acknowledge do |c|
 
   c.desc 'Make comment persistent after problems are resolved'
   c.switch [:p, :persistent]
-
   c.desc 'Print more verbose output'
   c.switch [:v, :verbose]
 
@@ -180,7 +179,7 @@ command :autocomplete do |c|
   end
 end
 
-desc 'Commit any pending changes done'
+desc 'Commit any pending changes'
 command :commit do |c|
   c.action do
     monitor.commit_op5_config

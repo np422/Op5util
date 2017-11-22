@@ -181,6 +181,7 @@ COMMANDS
     add            - Add a new host to be monitored by the Op5 server
     add_hostgroups - Add host to a new hostgroup(s)
     autocomplete   - Show instruction on howto setup tab autocomplete for op5util in your shell
+    commit         - Commit any pending changes
     downtime       - Schedule fixed downtime for a host
     help           - Shows a list of commands or help for one command
     hosts          - List all hosts, or detailed information about a single host
@@ -234,6 +235,11 @@ contact me at niklasp@<insert googles mail-service here>.com
 And please feel free to leave bug-reports or feature requests as issues in this repo.
 
 ## Version history
+
+### 0.1.7
+
+New command 'commit' that commits any pending/unsaved changes done previously, combined with
+the option --no-commit on the add_host and add_hostgroup commands.
 
 ### 0.1.6
 

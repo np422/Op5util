@@ -113,7 +113,7 @@ install op5util and the other gems that op5util depends on.
 user@host:~$ sudo gem install op5util
 ```
 
-The latest version is 0.1.6, you can verify that op5util is installed correctly using:
+The latest version is 0.1.7, you can verify that op5util is installed correctly using:
 
 ``` shell
 user@host:~$ gem list --details op5util
@@ -159,7 +159,7 @@ SYNOPSIS
     op5util [global options] command [command options] [arguments...]
 
 VERSION
-    0.1.6
+    0.1.7
 
 GLOBAL OPTIONS
     -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5

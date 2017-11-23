@@ -9,7 +9,7 @@ module Op5util
                                  headers: { 'Content-Type' => 'application/json' },
                                  body: body, basic_auth: @auth, verify: false)
       raise ApiError unless response.code == 200
-      puts 'Downtime Scheduled'
+      puts 'Downtime Scheduled for host #{host}'
     end
 
     private

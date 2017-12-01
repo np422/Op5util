@@ -15,6 +15,7 @@
 - [Roadmap, TODO](#roadmap-todo)
 - [Contact, bug-reports etc](#contact-bug-reports-etc)
 - [Version history](#version-history)
+
 - [How op5util may be used with ansible](#how-op5util-may-be-used-with-ansible)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -159,7 +160,7 @@ SYNOPSIS
     op5util [global options] command [command options] [arguments...]
 
 VERSION
-    0.1.7
+    0.1.8
 
 GLOBAL OPTIONS
     -f, --authfile=authfile - Authfile containing "username:password" used to authenticate with Op5
@@ -182,7 +183,7 @@ COMMANDS
     add_hostgroups - Add host to a new hostgroup(s)
     autocomplete   - Show instruction on howto setup tab autocomplete for op5util in your shell
     commit         - Commit any pending changes
-    downtime       - Schedule fixed downtime for a host
+    downtime       - Schedule fixed downtime for (a) host(s) , multiple hosts in a comma separated list
     help           - Shows a list of commands or help for one command
     hosts          - List all hosts, or detailed information about a single host
     hostgroups     - List hostgroups, optionally with member and service info, Usage examples:
@@ -235,6 +236,10 @@ contact me at niklasp@<insert googles mail-service here>.com
 And please feel free to leave bug-reports or feature requests as issues in this repo.
 
 ## Version history
+
+### 0.1.8
+
+Option to schedule downtime of many hosts in i comma separated list from a single command.
 
 ### 0.1.7
 

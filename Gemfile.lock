@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    op5util (0.1.7)
+    op5util (0.1.8)
       colorize (= 0.8.1)
       gli (= 2.16.1)
       httparty (= 0.15.5)

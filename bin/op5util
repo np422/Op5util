@@ -80,7 +80,7 @@ command :add_hostgroups do |c|
   end
 end
 
-desc 'Schedule fixed downtime for a host'
+desc 'Schedule fixed downtime for (a) host(s), multiple hosts in a comma separated list'
 arg_name 'host'
 command :downtime do |c|
   c.desc 'Duration of downtime, in number of hours'

@@ -17,7 +17,7 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options << '--title' << 'op5util' << '--main' << 'README.rdoc'
   s.bindir = 'bin'
   s.executables << 'op5util'
-  s.add_development_dependency 'rake', '~> 0'
+  s.add_development_dependency 'rake', '~> 13'
   s.add_development_dependency 'rdoc', '~> 0'
   s.add_development_dependency 'test-unit', '~> 0'
   s.add_runtime_dependency('colorize', '0.8.1')

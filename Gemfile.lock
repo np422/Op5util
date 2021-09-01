@@ -18,7 +18,7 @@ GEM
     multi_xml (0.6.0)
     power_assert (0.2.6)
     rake (13.0.1)
-    rdoc (5.1.0)
+    rdoc (6.3.2)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     test-unit (3.2.5)

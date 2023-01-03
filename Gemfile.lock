@@ -4,7 +4,7 @@ PATH
     op5util (0.1.8)
       colorize (= 0.8.1)
       gli (= 2.16.1)
-      httparty (= 0.15.5)
+      httparty (= 0.21.0)
       terminal-table (= 1.8.0)
 
 GEM
@@ -13,8 +13,10 @@ GEM
     awesome_print (1.7.0)
     colorize (0.8.1)
     gli (2.16.1)
-    httparty (0.15.5)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
+    mini_mime (1.1.2)
     multi_xml (0.6.0)
     power_assert (0.2.6)
     rake (13.0.1)
